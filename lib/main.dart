@@ -65,7 +65,7 @@ class _MainPageState extends State {
               backgroundColor: Colors.white  
           ),
             BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.home),
+              icon: ImageIcon(AssetImage('assets/iconashyq.png')),
               label: 'О приложении',  
               backgroundColor: Colors.white    
           ),

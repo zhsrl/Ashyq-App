@@ -1,12 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatelessWidget {
+  TextEditingController iinController = TextEditingController();
+
+  var value = 'data';
+
+  void _showSnackBar(BuildContext context, String value) {
+    Scaffold.of(context).showSnackBar(SnackBar(content: Text(value)));
+  }
+  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
       children: <Widget>[
+
         Container(
             alignment: Alignment.topCenter,
             child: Center(
@@ -58,6 +69,7 @@ class ProfilePage extends StatelessWidget {
                                 fontWeight: FontWeight.w500)),
                         Container(
                             child: TextField(
+                          controller: iinController,
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -69,19 +81,28 @@ class ProfilePage extends StatelessWidget {
                             hintText: 'Ваш ИИН',
                           ),
                         )),
-                        Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            width: 180,
-                            height: 40,
-                            child: Center(
-                                child: Text('Coхранить',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500))),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Color.fromRGBO(162, 183, 213, 1)))
+                        GestureDetector(
+                          onTap: () {
+
+
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    'Your IIN Code - ${iinController.text}')));
+                          },
+                          child: Container(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              width: 180,
+                              height: 40,
+                              child: Center(
+                                  child: Text('Coхранить',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500))),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color.fromRGBO(37, 101, 230, 1))),
+                        ),
                       ],
                     )),
                   )),
@@ -129,7 +150,40 @@ class ProfilePage extends StatelessWidget {
                             fontWeight: FontWeight.w500))),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Color.fromRGBO(162, 183, 213, 1)))
+                    color: Color.fromRGBO(37, 101, 230, 1))),
+            GestureDetector(
+              onLongPress: () {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('Ваш ИИН - ${iinController.text}')));
+              },
+              onTap: () async {
+                SharedPreferences pref = await SharedPreferences.getInstance(); 
+                if(value == null){
+                  value = "Пусто";
+                }else{
+                  pref.getString(value);
+                  _showSnackBar(context, value);
+                }
+
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('Ваш ИИН')));
+              },
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
+                width: 180,
+                height: 40,
+                child: Center(
+                    child: Text('Последние данные',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500))),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.green))
+            )
+            
+            
           ],
         )),
       ],
