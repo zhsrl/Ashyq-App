@@ -58,8 +58,10 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   assets:
+    - assets/logo_ashyq.png
     - assets/home.png
     - assets/info.png
     - assets/profile.png

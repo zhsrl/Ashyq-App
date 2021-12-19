@@ -66,7 +66,7 @@ class ProfilePage extends StatelessWidget {
                                 fontSize: 20.0,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w700),
-                            hintText: 'write your IIN number',
+                            hintText: 'Ваш ИИН',
                           ),
                         )),
                         Container(
@@ -113,7 +113,7 @@ class ProfilePage extends StatelessWidget {
                         fontSize: 18.0,
                         color: Colors.black,
                       ),
-                      hintText: 'write your IIN number',
+                      hintText: 'Название здания',
                     ),
                   )),
             ),
