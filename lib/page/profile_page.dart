@@ -58,7 +58,7 @@ class ProfilePage extends StatelessWidget {
                                 fontWeight: FontWeight.w500)),
                         Container(
                             child: TextField(
-                              textAlign: TextAlign.center,
+                          textAlign: TextAlign.center,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintStyle: TextStyle(
@@ -92,50 +92,44 @@ class ProfilePage extends StatelessWidget {
                 width: 500,
                 margin: EdgeInsets.only(top: 30)),
             Padding(
-              
-              padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 30.0, bottom: 20.0),
+              padding: const EdgeInsets.only(
+                  left: 20.0, right: 20.0, top: 30.0, bottom: 20.0),
               child: Container(
-                  
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.2),
-                        blurRadius: 10.0
-                      )
-                    ]
-                  ),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Color.fromRGBO(0, 0, 0, 0.2),
+                            blurRadius: 10.0)
+                      ]),
                   child: TextField(
                     textAlign: TextAlign.center,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      
                       hintStyle: TextStyle(
-                          fontFamily: 'Open Sans',
-                          fontSize: 18.0,
-                          
-                          color: Colors.black,
-                          ),
+                        fontFamily: 'Open Sans',
+                        fontSize: 18.0,
+                        color: Colors.black,
+                      ),
                       hintText: 'write your IIN number',
                     ),
                   )),
-                  
             ),
             Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            width: 180,
-                            height: 40,
-                            child: Center(
-                                child: Text('Coхранить',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500))),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Color.fromRGBO(162, 183, 213, 1)))
+                margin: EdgeInsets.symmetric(vertical: 10),
+                width: 180,
+                height: 40,
+                child: Center(
+                    child: Text('Coхранить',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500))),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Color.fromRGBO(162, 183, 213, 1)))
           ],
         )),
       ],
