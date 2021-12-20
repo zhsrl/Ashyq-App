@@ -50,23 +50,36 @@ class _MainPageState extends State {
         unselectedItemColor: Color.fromRGBO(151, 162, 184, 1),
         items: [
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.info),
+            icon: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(CupertinoIcons.info),
+            ),
             label: 'Инфо',
              
             backgroundColor: Colors.white   
           ),
             BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.home),
+              icon: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(CupertinoIcons.home),
+              ),
               label: 'Главная',
               backgroundColor: Colors.white     
           ),
             BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.profile_circled),
+              
+              icon: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(CupertinoIcons.profile_circled),
+              ),
               label: 'Профиль', 
               backgroundColor: Colors.white  
           ),
             BottomNavigationBarItem(
-              icon: ImageIcon(AssetImage('assets/iconashyq.png')),
+              icon: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ImageIcon(AssetImage('assets/iconashyq.png')),
+              ),
               label: 'О приложении',  
               backgroundColor: Colors.white    
           ),

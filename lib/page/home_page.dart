@@ -1,7 +1,11 @@
+import 'package:ashyq_app/page/qr_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class HomePage extends StatelessWidget {
   var logoAsset = 'assets/logo_main.png';
+  var qrCode = 'Unknown';
 
   @override
   Widget build(BuildContext context) {
@@ -36,17 +40,18 @@ class HomePage extends StatelessWidget {
                         height: 80,
                       ),
                       Container(
-                        padding: EdgeInsets.all(5),
-                        width: 115,
-                        height: 70,
-                        decoration: BoxDecoration(color: Color.fromRGBO(0, 60, 149, 1),
-                        borderRadius: BorderRadius.circular(10)
-                        ),
-                        child: Center(
-                          child: Text('Инструкция для регистрации входа',
-                        style: TextStyle(fontSize: 12, color: Colors.white, fontFamily: 'SF Pro Display'))
-                        )
-                      )
+                          padding: EdgeInsets.all(5),
+                          width: 115,
+                          height: 70,
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(0, 60, 149, 1),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Center(
+                              child: Text('Инструкция для регистрации входа',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.white,
+                                      fontFamily: 'SF Pro Display'))))
                     ],
                   )))
         ],
@@ -65,46 +70,52 @@ class HomePage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             fontFamily: 'SF Pro Display')))),
             GestureDetector(
-              onTap:() {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Tapped')
-                ));
-              },
-              child: Container(
-                padding: EdgeInsets.only(left: 20, top: 10, bottom: 10, right: 10),
-                width: 380,
-                height: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Color.fromRGBO(231, 232, 243, 1),
-                ),
-                child: 
-                
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    
-                    Text('Регистрация входа',
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: 'SF Pro Display',
-                            fontWeight: FontWeight.bold)),
-                    Container(
-                      margin: EdgeInsets.only(right: 20.0),
-                      width: 120,
-                      height: 120,
-                      alignment: Alignment.bottomRight,
-                      child: Image.network(
-                            'https://cdn.pixabay.com/photo/2013/07/13/10/08/code-156629_1280.png'),
-                    )
-                  ],
-                ))
-            )
-            
-
+                onTap: () {
+                  (context) => scanQRPage();
+                },
+                child: Container(
+                    padding: EdgeInsets.only(
+                        left: 20, top: 10, bottom: 10, right: 10),
+                    width: 380,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color.fromRGBO(231, 232, 243, 1),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Регистрация входа',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontFamily: 'SF Pro Display',
+                                fontWeight: FontWeight.bold)),
+                        Container(
+                          margin: EdgeInsets.only(right: 20.0),
+                          width: 120,
+                          height: 120,
+                          alignment: Alignment.bottomRight,
+                          child: Image.network(
+                              'https://cdn.pixabay.com/photo/2013/07/13/10/08/code-156629_1280.png'),
+                        )
+                      ],
+                    )))
           ],
         ),
       )
     ]));
+  }
+
+  Future<void> scanQRPage() async {
+    try {
+        final qrCode = await FlutterBarcodeScanner.scanBarcode(
+        '#ff6666', 'Шығу', true, ScanMode.QR);
+
+        this.qrCode = qrCode;
+    } on PlatformException {
+      qrCode = 'Failed QR';
+    }
+
+      
   }
 }
