@@ -2,6 +2,7 @@ import 'package:ashyq_app/page/about_page.dart';
 import 'package:ashyq_app/page/home_page.dart';
 import 'package:ashyq_app/page/info_page.dart';
 import 'package:ashyq_app/page/profile_page.dart';
+import 'package:ashyq_app/page/qr_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

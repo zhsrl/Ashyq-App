@@ -4,17 +4,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatelessWidget {
   TextEditingController iinController = TextEditingController();
+  TextEditingController placeController = TextEditingController();
 
-  var value = 'data';
+  var iinValue = 'NULL';
+  var placeValue = 'NULL';
 
-  void _showSnackBar(BuildContext context, String value) {
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text(value)));
-  }
   
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         body: Stack(
       children: <Widget>[
 
@@ -46,8 +46,8 @@ class ProfilePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 0, top: 80),
               child: Container(
-                  width: 340,
-                  height: 180,
+                  width: 380,
+                  height: 170,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       boxShadow: [
@@ -66,28 +66,39 @@ class ProfilePage extends StatelessWidget {
                             style: TextStyle(
                                 color: Color.fromRGBO(170, 183, 228, 1),
                                 fontSize: 20,
+                                fontFamily: 'SF Pro Display',
                                 fontWeight: FontWeight.w500)),
                         Container(
                             child: TextField(
                           controller: iinController,
                           textAlign: TextAlign.center,
-                          decoration: InputDecoration(
+                          style: TextStyle(
+                                fontFamily: 'SF Pro Display',
+                                fontSize: 21.0,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w700),
+                          decoration:const InputDecoration(
                             border: InputBorder.none,
+                          
                             hintStyle: TextStyle(
-                                fontFamily: 'Open Sans',
-                                fontSize: 20.0,
+                                fontFamily: 'SF Pro Display',
+                                fontSize: 21.0,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w700),
                             hintText: 'Ваш ИИН',
                           ),
                         )),
                         GestureDetector(
-                          onTap: () {
-
-
+                          onTap: () async {
+                            SharedPreferences pref = await SharedPreferences.getInstance(); 
+                          
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text(
                                     'Your IIN Code - ${iinController.text}')));
+
+                            iinValue = pref.setString('iinData', iinController.text.toString()) as String;
+
+                            
                           },
                           child: Container(
                               margin: EdgeInsets.symmetric(vertical: 10),
@@ -126,19 +137,39 @@ class ProfilePage extends StatelessWidget {
                             blurRadius: 10.0)
                       ]),
                   child: TextField(
+                    controller: placeController,
                     textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'SF Pro Display',
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintStyle: TextStyle(
-                        fontFamily: 'Open Sans',
+                        fontFamily: 'SF Pro Display',
                         fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                       hintText: 'Название здания',
                     ),
                   )),
             ),
-            Container(
+
+            GestureDetector(
+              onTap: () async {
+                SharedPreferences pref = await SharedPreferences.getInstance();
+
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(
+                  'PLACE - ${placeController.text}'
+                )));
+
+                placeValue = pref.setString('placeData', placeController.text.toString()) as String;
+                
+              },
+              child:  Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
                 width: 180,
                 height: 40,
@@ -151,22 +182,28 @@ class ProfilePage extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: Color.fromRGBO(37, 101, 230, 1))),
+            ),
+           
             GestureDetector(
               onLongPress: () {
+                
+                
+
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text('Ваш ИИН - ${iinController.text}')));
               },
               onTap: () async {
                 SharedPreferences pref = await SharedPreferences.getInstance(); 
-                if(value == null){
-                  value = "Пусто";
-                }else{
-                  pref.getString(value);
-                  _showSnackBar(context, value);
-                }
+                
+                
+                iinValue = pref.getString('iinData') ?? "NULL";
+                placeValue = pref.getString('placeData') ?? "NULL";
 
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('Ваш ИИН')));
+                content: Text('ИИН - $iinValue - ЗДАНИЕ - $placeValue')));
+
+                iinController.text = iinValue;
+                placeController.text = placeValue;
               },
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 10),

@@ -11,7 +11,7 @@ class HomePage extends StatelessWidget {
         children: <Widget>[
           Container(
               width: 500,
-              height: 220,
+              height: 240,
               decoration: BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
@@ -44,7 +44,7 @@ class HomePage extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text('Инструкция для регистрации входа',
-                        style: TextStyle(fontSize: 12, color: Colors.white))
+                        style: TextStyle(fontSize: 12, color: Colors.white, fontFamily: 'SF Pro Display'))
                         )
                       )
                     ],
@@ -56,41 +56,52 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-                padding: EdgeInsets.only(left: 16, top: 24, bottom: 10),
+                padding: EdgeInsets.only(left: 18, top: 20, bottom: 10),
                 child: Align(
                     alignment: Alignment.topLeft,
                     child: Text('Для пользователей',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            fontFamily: 'Open Sans')))),
-            Container(
+                            fontFamily: 'SF Pro Display')))),
+            GestureDetector(
+              onTap:() {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('Tapped')
+                ));
+              },
+              child: Container(
                 padding: EdgeInsets.only(left: 20, top: 10, bottom: 10, right: 10),
-                width: 360,
-                height: 90,
+                width: 380,
+                height: 80,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color.fromRGBO(231, 232, 237, 1),
+                  color: Color.fromRGBO(231, 232, 243, 1),
                 ),
                 child: 
                 
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     
                     Text('Регистрация входа',
                         style: TextStyle(
-                            fontSize: 19,
-                            fontFamily: 'Open Sans',
-                            fontWeight: FontWeight.w600)),
+                            fontSize: 18,
+                            fontFamily: 'SF Pro Display',
+                            fontWeight: FontWeight.bold)),
                     Container(
-                      width: 130,
-                      height: 130,
+                      margin: EdgeInsets.only(right: 20.0),
+                      width: 120,
+                      height: 120,
                       alignment: Alignment.bottomRight,
                       child: Image.network(
-                          'https://cdn.pixabay.com/photo/2013/07/13/10/08/code-156629_1280.png'),
+                            'https://cdn.pixabay.com/photo/2013/07/13/10/08/code-156629_1280.png'),
                     )
                   ],
                 ))
+            )
+            
+
           ],
         ),
       )

@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   webview_flutter: ^3.0.0
   shared_preferences: ^2.0.11
+  qr_code_scanner: ^0.6.1
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +75,12 @@ flutter:
       - asset: font/os-reg.ttf
       - asset: font/os-semibold.ttf
       - asset: font/os-bold.ttf
+    - family: SF Pro Display
+      fonts:
+        - asset: font/sfregular.otf
+        - asset: font/sfmedium.otf
+        - asset: font/sfsemibold.otf
+        - asset: font/sfbold.otf
 
   # To add assets to your application, add an assets section, like this:
   # assets:
