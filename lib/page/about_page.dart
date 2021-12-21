@@ -31,8 +31,8 @@ class AboutPage extends StatelessWidget {
                 Container(
                   child: Image.asset(
                     logoAsset,
-                    width: 170,
-                    height: 170,
+                    width: 160,
+                    height: 160,
                   ),
                 ),
                 Padding(
@@ -45,6 +45,7 @@ class AboutPage extends StatelessWidget {
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 15,
+                          fontFamily: 'SF Pro Display',
                           fontWeight: FontWeight.w600),
                     ),
                   ),

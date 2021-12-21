@@ -1,11 +1,22 @@
+import 'dart:io';
+
+import 'package:ashyq_app/main.dart';
 import 'package:ashyq_app/page/qr_page.dart';
+import 'package:ashyq_app/page/result_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State {
   var logoAsset = 'assets/logo_main.png';
   var qrCode = 'Unknown';
+
+  var _data = "";
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +82,8 @@ class HomePage extends StatelessWidget {
                             fontFamily: 'SF Pro Display')))),
             GestureDetector(
                 onTap: () {
-                  (context) => scanQRPage();
+                  _scanQRPage();
+                  // (context) => scanQRPage();
                 },
                 child: Container(
                     padding: EdgeInsets.only(
@@ -106,16 +118,22 @@ class HomePage extends StatelessWidget {
     ]));
   }
 
-  Future<void> scanQRPage() async {
-    try {
-        final qrCode = await FlutterBarcodeScanner.scanBarcode(
-        '#ff6666', 'Шығу', true, ScanMode.QR);
+  _scanQRPage() async {
+    await FlutterBarcodeScanner.scanBarcode(
+            '#000000', 'Шығу', true, ScanMode.QR)
+        .then((value) => setState(() => _data = value));
 
-        this.qrCode = qrCode;
-    } on PlatformException {
-      qrCode = 'Failed QR';
+    if(_data != "-1"){
+      setState(() {
+        Navigator.push(context, MaterialPageRoute(builder:(context) => ResultPage()));
+      });
+
+    }else{
+      setState(() {
+        _data = 'Scan canceled';
+      });
     }
 
-      
+    // Navigator.push(context, MaterialPageRoute(builder:(context) => ResultPage()));
   }
 }

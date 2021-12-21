@@ -2,7 +2,7 @@ import 'package:ashyq_app/page/about_page.dart';
 import 'package:ashyq_app/page/home_page.dart';
 import 'package:ashyq_app/page/info_page.dart';
 import 'package:ashyq_app/page/profile_page.dart';
-import 'package:ashyq_app/page/qr_page.dart';
+import 'package:ashyq_app/page/result_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,6 +21,8 @@ class MyApp extends StatelessWidget{
 
 }
 
+
+
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
@@ -33,7 +35,8 @@ class _MainPageState extends State {
     InfoPage(),
     HomePage(),
     ProfilePage(),
-    AboutPage()
+    AboutPage(),
+    ResultPage()
   ];
   
   @override
@@ -88,5 +91,7 @@ class _MainPageState extends State {
           
     );
   }
+
+  
 }
 
