@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 
 void main() => runApp(ResultPage());
 
@@ -7,7 +8,25 @@ class ResultPage extends StatefulWidget {
   _ResultPageState createState() => _ResultPageState();
 }
 
-class _ResultPageState extends State {
+class _ResultPageState extends State with TickerProviderStateMixin {
+
+  late final AnimationController _controller =
+      AnimationController(vsync: this, duration:const Duration(milliseconds: 450))
+        ..repeat(reverse: true);
+
+  late final Animation<double> _animation =
+      CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+
+  int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
+  DateTime time = DateTime.now();
+  
+  @override
+  void dispose() {
+    _controller.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +98,7 @@ class _ResultPageState extends State {
                   padding: const EdgeInsets.only(top: 30),
                   child: Container(
                       width: 360,
-                      height: 300,
+                      height: 500,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           boxShadow: [
@@ -93,7 +112,7 @@ class _ResultPageState extends State {
                         padding: EdgeInsets.all(15),
                         child: Center(
                             child: Column(
-                           children: <Widget>[
+                          children: <Widget>[
                             Text('Вход'.toUpperCase(),
                                 style: TextStyle(
                                     color: Color.fromRGBO(0, 24, 163, 1),
@@ -123,10 +142,9 @@ class _ResultPageState extends State {
                               children: [
                                 Container(
                                   width: 120,
-
                                   child: Column(
-                                    
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
@@ -177,10 +195,83 @@ class _ResultPageState extends State {
                               height: 0.6,
                               width: 360.0,
                             ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Text('Статус',
+                                style: TextStyle(
+                                    color: Color.fromRGBO(113, 160, 193, 1))),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            
+                            FadeTransition(
+                                  opacity: _animation,
+                                  child:  Container(
+                                width: 340.0,
+                                height: 80.0,
+                                decoration: BoxDecoration(
+                                    color: Color.fromRGBO(162, 238, 172, 1),
+                                    borderRadius: BorderRadius.circular(10.0)),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 60.0),
+                                      child: Center(
+                                        child: Text(
+                                          'БЕЗОПАСНЫЙ',
+                                          style: TextStyle(
+                                              fontFamily: 'SF Pro Display',
+                                              fontSize: 26.0,
+                                              color:
+                                                  Color.fromRGBO(0, 138, 60, 1),
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 40.0, top: 5.0),
+                                      child: Container(
+                                          alignment: Alignment.topRight,
+                                          child: Image.asset(
+                                            'assets/info_2.png',
+                                            width: 20,
+                                            height: 20,
+                                          )),
+                                    ),
+                                  ],
+                                ),
+                                )
+                          
+                                
+                                ),
 
-                            Text('Статус', style: TextStyle(
-                              color: Color.fromRGBO(113, 160, 193, 1)
-                            ))
+                                SizedBox(
+                                  height: 10,
+                                ),
+
+                                Container(
+                                  width: 340,
+                                  height: 195,
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(247, 246, 254, 1),
+                                    borderRadius: BorderRadius.circular(10)
+                                  ),
+                                  child: 
+                                  Center(
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 16.0),
+                                          child: Text('Срок действия истечет через:'),
+                                        ),
+                                      
+                                      ],
+                                    ),
+                                  ),
+                                )
                           ],
                         )),
                       )),
@@ -190,4 +281,6 @@ class _ResultPageState extends State {
           ],
         ));
   }
+
+
 }
