@@ -1,4 +1,6 @@
-import 'package:flutter/cupertino.dart';
+
+
+import 'package:ashyq_app/page/result_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -204,6 +206,8 @@ class ProfilePage extends StatelessWidget {
 
                 iinController.text = iinValue;
                 placeController.text = placeValue;
+
+                sendData(context);
               },
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
@@ -225,5 +229,12 @@ class ProfilePage extends StatelessWidget {
         )),
       ],
     ));
+  }
+
+  void sendData(BuildContext context) {
+    String iin = iinController.text;
+    String place = placeController.text;
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ResultPage(iin: iin, place: place)));
   }
 }

@@ -1,30 +1,84 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(ResultPage());
 
 class ResultPage extends StatefulWidget {
   @override
   _ResultPageState createState() => _ResultPageState();
+
+  String? iin;
+  String? place;
+
+  ResultPage({Key? key, @required this.iin, @required this.place}) : super(key: key);
 }
 
 class _ResultPageState extends State with TickerProviderStateMixin {
-
-  late final AnimationController _controller =
-      AnimationController(vsync: this, duration:const Duration(milliseconds: 450))
-        ..repeat(reverse: true);
+  late final AnimationController _controller = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 450))
+    ..repeat(reverse: true);
 
   late final Animation<double> _animation =
       CurvedAnimation(parent: _controller, curve: Curves.easeIn);
 
-  int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
-  DateTime time = DateTime.now();
+  // Countdown timer variables
+  static const maxTime = 300000;
+  int seconds = maxTime;
+
+  int milliseconds = maxTime;
+  Timer? timer;
   
+
+  String currentTime() {
+    DateTime currentDate = DateTime.now();
+    String formattedDate = DateFormat('dd.MM.yyyy kk:mm').format(currentDate);
+    return formattedDate;
+  }
+
+  String timerFormatter2() {
+    milliseconds = milliseconds.truncate();
+    int seconds = (milliseconds / 1000).truncate();
+    int minutes = (seconds / 60).truncate();
+
+    String millisecStr = (milliseconds % 100).toString().padLeft(2, '0');
+    String secStr = (seconds % 60).toString().padLeft(2, '0');
+    String minStr = minutes.toString().padLeft(2, '0');
+
+    if (minutes == 0) {
+      return "00:$secStr:$millisecStr";
+    }
+
+    return "$minStr:$secStr:$millisecStr";
+  }
+
+  void startTimer() {
+    timer = Timer.periodic(Duration(milliseconds: 1), (_) {
+      setState(() {
+        milliseconds--;
+
+        if (milliseconds == 0) {
+          timer!.cancel();
+        }
+      });
+    });
+  }
+
   @override
   void dispose() {
     _controller.dispose();
     // TODO: implement dispose
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Timer.run(() => {startTimer()});
   }
 
   @override
@@ -98,7 +152,7 @@ class _ResultPageState extends State with TickerProviderStateMixin {
                   padding: const EdgeInsets.only(top: 30),
                   child: Container(
                       width: 360,
-                      height: 500,
+                      height: 520,
                       decoration: BoxDecoration(
                           color: Colors.white,
                           boxShadow: [
@@ -204,83 +258,116 @@ class _ResultPageState extends State with TickerProviderStateMixin {
                             SizedBox(
                               height: 10.0,
                             ),
-                            
                             FadeTransition(
-                                  opacity: _animation,
-                                  child:  Container(
-                                width: 340.0,
-                                height: 80.0,
-                                decoration: BoxDecoration(
-                                    color: Color.fromRGBO(162, 238, 172, 1),
-                                    borderRadius: BorderRadius.circular(10.0)),
-                                child: Row(
+                                opacity: _animation,
+                                child: Container(
+                                  width: 340.0,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                      color: Color.fromRGBO(162, 238, 172, 1),
+                                      borderRadius:
+                                          BorderRadius.circular(10.0)),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 60.0),
+                                        child: Center(
+                                          child: Text(
+                                            'БЕЗОПАСНЫЙ',
+                                            style: TextStyle(
+                                                fontFamily: 'SF Pro Display',
+                                                fontSize: 26.0,
+                                                color: Color.fromRGBO(
+                                                    0, 138, 60, 1),
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 40.0, top: 5.0),
+                                        child: Container(
+                                            alignment: Alignment.topRight,
+                                            child: Image.asset(
+                                              'assets/info_2.png',
+                                              width: 20,
+                                              height: 20,
+                                            )),
+                                      ),
+                                    ],
+                                  ),
+                                )),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Container(
+                              width: 340,
+                              height: 210,
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(247, 246, 254, 1),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                child: Column(
                                   children: [
                                     Padding(
-                                      padding:
-                                          const EdgeInsets.only(left: 60.0),
-                                      child: Center(
-                                        child: Text(
-                                          'БЕЗОПАСНЫЙ',
+                                      padding: const EdgeInsets.only(top: 16.0),
+                                      child: Text(
+                                          'Срок действия истечет через:',
                                           style: TextStyle(
-                                              fontFamily: 'SF Pro Display',
-                                              fontSize: 26.0,
-                                              color:
-                                                  Color.fromRGBO(0, 138, 60, 1),
-                                              fontWeight: FontWeight.bold),
-                                        ),
+                                              color: Color.fromRGBO(
+                                                  188, 197, 213, 1))),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 32.0),
+                                      child: Text(
+                                        timerFormatter2(),
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'SF Pro Display',
+                                            fontSize: 28),
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 40.0, top: 5.0),
-                                      child: Container(
-                                          alignment: Alignment.topRight,
-                                          child: Image.asset(
-                                            'assets/info_2.png',
-                                            width: 20,
-                                            height: 20,
+                                      padding: const EdgeInsets.only(top: 35.0),
+                                      child: Text(
+                                          'Дата и время сканирования кода',
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  188, 197, 213, 1))),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(currentTime(),
+                                          style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                188, 197, 213, 1),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18.0,
                                           )),
                                     ),
                                   ],
                                 ),
-                                )
-                          
-                                
-                                ),
-
-                                SizedBox(
-                                  height: 10,
-                                ),
-
-                                Container(
-                                  width: 340,
-                                  height: 195,
-                                  decoration: BoxDecoration(
-                                    color: Color.fromRGBO(247, 246, 254, 1),
-                                    borderRadius: BorderRadius.circular(10)
-                                  ),
-                                  child: 
-                                  Center(
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(top: 16.0),
-                                          child: Text('Срок действия истечет через:'),
-                                        ),
-                                      
-                                      ],
-                                    ),
-                                  ),
-                                )
+                              ),
+                            ),
                           ],
                         )),
                       )),
                 ),
+                Padding(
+                    padding: EdgeInsets.only(top: 32.0),
+                    child: Text(
+                      'Покажите полученный результат\n соответстующему сотруднику объекта',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Display',
+                        fontWeight: FontWeight.w500
+                      )
+                    ))
               ],
             )),
           ],
         ));
   }
-
-
 }
