@@ -1,6 +1,7 @@
 
 
 import 'package:ashyq_app/page/result_page.dart';
+import 'package:ashyq_app/page/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,8 +9,10 @@ class ProfilePage extends StatelessWidget {
   TextEditingController iinController = TextEditingController();
   TextEditingController placeController = TextEditingController();
 
-  var iinValue = 'NULL';
-  var placeValue = 'NULL';
+  late var iinValue;
+  late var placeValue;
+
+
 
   
 
@@ -98,7 +101,7 @@ class ProfilePage extends StatelessWidget {
                                 content: Text(
                                     'Your IIN Code - ${iinController.text}')));
 
-                            iinValue = pref.setString('iinData', iinController.text.toString()) as String;
+                            iinValue = pref.setString(SharedPreferencesKeys.iinValue, iinController.text.toString()) as String;
 
                             
                           },
@@ -168,7 +171,7 @@ class ProfilePage extends StatelessWidget {
                   'PLACE - ${placeController.text}'
                 )));
 
-                placeValue = pref.setString('placeData', placeController.text.toString()) as String;
+                placeValue = pref.setString(SharedPreferencesKeys.placeValue, placeController.text.toString()) as String;
                 
               },
               child:  Container(
@@ -207,7 +210,6 @@ class ProfilePage extends StatelessWidget {
                 iinController.text = iinValue;
                 placeController.text = placeValue;
 
-                sendData(context);
               },
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
@@ -231,10 +233,4 @@ class ProfilePage extends StatelessWidget {
     ));
   }
 
-  void sendData(BuildContext context) {
-    String iin = iinController.text;
-    String place = placeController.text;
-
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ResultPage(iin: iin, place: place)));
-  }
 }

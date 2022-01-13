@@ -1,20 +1,17 @@
 import 'dart:async';
-
+import 'dart:math';
+import 'package:ashyq_app/page/profile_page.dart';
+import 'package:ashyq_app/page/shared_preferences.dart';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(ResultPage());
 
 class ResultPage extends StatefulWidget {
   @override
   _ResultPageState createState() => _ResultPageState();
-
-  String? iin;
-  String? place;
-
-  ResultPage({Key? key, @required this.iin, @required this.place}) : super(key: key);
+  
 }
 
 class _ResultPageState extends State with TickerProviderStateMixin {
@@ -26,12 +23,27 @@ class _ResultPageState extends State with TickerProviderStateMixin {
       CurvedAnimation(parent: _controller, curve: Curves.easeIn);
 
   // Countdown timer variables
-  static const maxTime = 300000;
+  static const maxTime = 3000;
   int seconds = maxTime;
 
   int milliseconds = maxTime;
   Timer? timer;
-  
+
+  String placeData = "";
+  String iinData = "";
+
+  String binNumber(){
+    int start = 100000000;
+    int end = 999999999;
+
+    var random = Random();
+
+    int result =  random.nextInt(end - start);
+
+    print(result);
+
+    return result.toString();
+  }
 
   String currentTime() {
     DateTime currentDate = DateTime.now();
@@ -76,10 +88,22 @@ class _ResultPageState extends State with TickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    Timer.run(() => {startTimer()});
+
+
+    // Timer.run(() => {startTimer()});
+
+    SharedPreferencesTool().getDataFromPref(SharedPreferencesKeys.placeValue).then((String value )=> {
+      placeData = value
+    });
+
+    SharedPreferencesTool().getDataFromPref(SharedPreferencesKeys.iinValue).then((String value) => {
+      iinData = value
+    });
+    
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +157,7 @@ class _ResultPageState extends State with TickerProviderStateMixin {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('010222550444',
+                          Text(iinData,
                               style: TextStyle(
                                   fontFamily: 'SF Pro Display',
                                   color: Colors.white)),
@@ -173,24 +197,18 @@ class _ResultPageState extends State with TickerProviderStateMixin {
                                     fontSize: 14,
                                     fontFamily: 'SF Pro Display',
                                     fontWeight: FontWeight.w600)),
-                            Container(
-                                child: TextField(
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontFamily: 'SF Pro Display',
-                                  fontSize: 21.0,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w700),
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Container(
+                                  child: Text(placeData,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
                                     fontFamily: 'SF Pro Display',
-                                    fontSize: 18.0,
+                                    fontSize: 21.0,
                                     color: Colors.black,
                                     fontWeight: FontWeight.w700),
-                                hintText: 'Place Title',
-                              ),
-                            )),
+                              )),
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -208,7 +226,7 @@ class _ResultPageState extends State with TickerProviderStateMixin {
                                               color: Color.fromRGBO(
                                                   151, 162, 184, 1))),
                                       SizedBox(height: 10),
-                                      Text('Номер телефона',
+                                      Text(binNumber(),
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontFamily: 'SF Pro Display',
@@ -234,7 +252,7 @@ class _ResultPageState extends State with TickerProviderStateMixin {
                                             color: Color.fromRGBO(
                                                 151, 162, 184, 1))),
                                     SizedBox(height: 10),
-                                    Text('PLACE TITLE',
+                                    Text(placeData,
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500,
