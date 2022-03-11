@@ -35,7 +35,6 @@ class _ResultPageState extends State with TickerProviderStateMixin {
   String binNumber(){
     int start = 100000000;
     int end = 999999999;
-
     var random = Random();
 
     int result =  random.nextInt(end - start);
